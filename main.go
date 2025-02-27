@@ -36,6 +36,14 @@ func main() {
 		return
 	}
 
+	mergeCellRanges := [][]string{{"A1", "K1"}, {"A2", "D2"}, {"E2", "G2"}, {"H2", "J2"}}
+	for _, ranges := range mergeCellRanges {
+		if err := f.MergeCell(sheetName, ranges[0], ranges[1]); err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+
 	if err := f.SaveAs("Book1.xlsx"); err != nil {
 		fmt.Println(err)
 	}
