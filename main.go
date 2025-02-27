@@ -36,12 +36,42 @@ func main() {
 		return
 	}
 
-	mergeCellRanges := [][]string{{"A1", "K1"}, {"A2", "D2"}, {"E2", "G2"}, {"H2", "J2"}}
+	mergeCellRanges := [][]string{{"A1", "K1"}, {"A2", "D2"}, {"E2", "G2"}, {"H2", "K2"}}
 	for _, ranges := range mergeCellRanges {
 		if err := f.MergeCell(sheetName, ranges[0], ranges[1]); err != nil {
 			fmt.Println(err)
 			return
 		}
+	}
+	style1, err := f.NewStyle(&excelize.Style{
+		Alignment: &excelize.Alignment{Horizontal: "center"},
+		Fill:      excelize.Fill{Type: "pattern", Color: []string{"#D07462"}, Pattern: 1},
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if f.SetCellStyle(sheetName, "A1", "A1", style1); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	style2, err := f.NewStyle(&excelize.Style{
+		Alignment: &excelize.Alignment{Horizontal: "center"},
+		Fill:      excelize.Fill{Type: "pattern", Color: []string{"#C9DFB9"}, Pattern: 1},
+	})
+
+	for _, cell := range []string{"A2", "E2", "H2"} {
+		if err := f.SetCellStyle(sheetName, cell, cell, style2); err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+
+	if err := f.SetColWidth(sheetName, "D", "K", 14); err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	if err := f.SaveAs("Book1.xlsx"); err != nil {
