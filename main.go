@@ -29,6 +29,12 @@ func main() {
 			return
 		}
 	}
+	formulaType, ref := excelize.STCellFormulaTypeShared, "K4:K9"
+	if err := f.SetCellFormula(sheetName, "K4", "=SUM(E4:J4)",
+		excelize.FormulaOpts{Ref: &ref, Type: &formulaType}); err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	if err := f.SaveAs("Book1.xlsx"); err != nil {
 		fmt.Println(err)
